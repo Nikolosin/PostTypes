@@ -46,18 +46,18 @@ class PostAdapter(val list: List<Post>) : RecyclerView.Adapter<RecyclerView.View
                     false
                 )
             )
-            PostType.AD -> EventViewHolder(
+            PostType.AD -> AdViewHolder(
                 this,
                 LayoutInflater.from(parent.context).inflate(
-                    R.layout.post_feed_event_card,
+                    R.layout.post_feed_ad_card,
                     parent,
                     false
                 )
             )
-            PostType.YOUTUBE -> EventViewHolder(
+            PostType.YOUTUBE -> YoutubeViewHolder(
                 this,
                 LayoutInflater.from(parent.context).inflate(
-                    R.layout.post_feed_event_card,
+                    R.layout.post_feed_youtube_card,
                     parent,
                     false
                 )
@@ -72,8 +72,8 @@ class PostAdapter(val list: List<Post>) : RecyclerView.Adapter<RecyclerView.View
         PostType.POST -> VIEW_TYPE_POST
         PostType.REPOST -> VIEW_TYPE_REPOST
         PostType.EVENT -> VIEW_TYPE_EVENT
-        PostType.AD -> VIEW_TYPE_EVENT
-        PostType.YOUTUBE -> VIEW_TYPE_EVENT
+        PostType.AD -> VIEW_TYPE_AD
+        PostType.YOUTUBE -> VIEW_TYPE_YOUTUBE
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {

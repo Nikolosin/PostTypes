@@ -1,14 +1,13 @@
 package com.example.posttypes
 
-
 import android.content.Intent
 import android.graphics.Color
+import android.net.Uri
 import android.view.View
 import androidx.recyclerview.widget.RecyclerView
-import kotlinx.android.synthetic.main.post_feed_repost_card.view.*
+import kotlinx.android.synthetic.main.post_feed_youtube_card.view.*
 
-
-class RepostViewHolder(adapter: PostAdapter, view: View) : BaseViewHolder(adapter, view) {
+class YoutubeViewHolder(adapter: PostAdapter, view: View) : BaseViewHolder(adapter, view) {
     init {
         with(itemView) {
             buttonLike.setOnClickListener {
@@ -45,6 +44,12 @@ class RepostViewHolder(adapter: PostAdapter, view: View) : BaseViewHolder(adapte
                     item.activeComm = !item.activeComm
                 }
             }
+            plug.setOnClickListener() {
+                val item = adapter.list[adapterPosition]
+                val intent = Intent(Intent.ACTION_VIEW, Uri.parse(item.url))
+                itemView.context.startActivity(intent)
+            }
+
             buttonShare.setOnClickListener {
                 if (adapterPosition != RecyclerView.NO_POSITION) {
                     val item = adapter.list[adapterPosition]
@@ -64,7 +69,6 @@ class RepostViewHolder(adapter: PostAdapter, view: View) : BaseViewHolder(adapte
                         putExtra(
                             Intent.EXTRA_TEXT, """
                                 ${item.author}
-    
                                 ${item.text}
                             """.trimIndent()
                         )
@@ -76,15 +80,15 @@ class RepostViewHolder(adapter: PostAdapter, view: View) : BaseViewHolder(adapte
         }
     }
 
+
     override fun bind(post: Post) {
         with(itemView) {
             date.text = post.data
-            name.text = "Repost from:" + post.author
+            name.text = post.author
             textPost.text = post.text
             itemLike.text = post.itemLike.toString()
             itemComment.text = post.itemComm.toString()
             itemShare.text = post.itemShare.toString()
-
             if (post.activeLike) {
                 buttonLike.setImageResource(R.drawable.ic_baseline_favoritered_24)
                 itemLike.setTextColor(Color.RED)
@@ -107,5 +111,6 @@ class RepostViewHolder(adapter: PostAdapter, view: View) : BaseViewHolder(adapte
                 itemShare.setTextColor(Color.GRAY)
             }
         }
+
     }
 }

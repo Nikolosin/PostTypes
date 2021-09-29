@@ -9,7 +9,7 @@ data class Post(
     val data: String? = null,
     val author: String,
     val text: String? = null,
-    var itemLike: Int,
+    var itemLike: Int? = null,
     var itemComm: Int? = null,
     var itemShare: Int? = null,
     var activeLike: Boolean = false,
@@ -17,6 +17,7 @@ data class Post(
     var activeShare: Boolean = false,
     var address: String? = null,
     var gps: Pair<Double, Double>? = null,
+    var url: String? = null,
     val postType: PostType = PostType.POST
 ) {
 }

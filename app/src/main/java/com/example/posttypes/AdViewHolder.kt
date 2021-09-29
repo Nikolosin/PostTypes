@@ -1,16 +1,21 @@
 package com.example.posttypes
 
-
 import android.content.Intent
 import android.graphics.Color
+import android.net.Uri
 import android.view.View
 import androidx.recyclerview.widget.RecyclerView
-import kotlinx.android.synthetic.main.post_feed_repost_card.view.*
+import kotlinx.android.synthetic.main.post_feed_ad_card.view.*
 
 
-class RepostViewHolder(adapter: PostAdapter, view: View) : BaseViewHolder(adapter, view) {
+class AdViewHolder(adapter: PostAdapter, view: View): BaseViewHolder(adapter, view) {
     init {
         with(itemView) {
+            plug.setOnClickListener(){
+                val item = adapter.list[adapterPosition]
+                val intent = Intent(Intent.ACTION_VIEW, Uri.parse(item.url))
+                itemView.context.startActivity(intent)
+            }
             buttonLike.setOnClickListener {
                 if (adapterPosition != RecyclerView.NO_POSITION) {
                     val item = adapter.list[adapterPosition]
@@ -28,23 +33,6 @@ class RepostViewHolder(adapter: PostAdapter, view: View) : BaseViewHolder(adapte
                 }
             }
 
-            buttonComment.setOnClickListener {
-                if (adapterPosition != RecyclerView.NO_POSITION) {
-                    val item = adapter.list[adapterPosition]
-                    if (!item.activeComm) {
-                        buttonComment.setImageResource(R.drawable.ic_baseline_commentred_24)
-                        itemComment.setTextColor(Color.RED)
-                        item.itemComm = item.itemComm!! + 1
-
-                    } else {
-                        buttonComment.setImageResource(R.drawable.ic_baseline_comment_24)
-                        itemComment.setTextColor(Color.GRAY)
-                        item.itemComm = item.itemComm!! - 1
-                    }
-                    adapter.notifyItemChanged(adapterPosition)
-                    item.activeComm = !item.activeComm
-                }
-            }
             buttonShare.setOnClickListener {
                 if (adapterPosition != RecyclerView.NO_POSITION) {
                     val item = adapter.list[adapterPosition]
@@ -76,13 +64,14 @@ class RepostViewHolder(adapter: PostAdapter, view: View) : BaseViewHolder(adapte
         }
     }
 
+
     override fun bind(post: Post) {
         with(itemView) {
-            date.text = post.data
-            name.text = "Repost from:" + post.author
+            name.text=post.author
+            ad.text = "Реалмная запись"
+            url.text = post.url
             textPost.text = post.text
             itemLike.text = post.itemLike.toString()
-            itemComment.text = post.itemComm.toString()
             itemShare.text = post.itemShare.toString()
 
             if (post.activeLike) {
@@ -92,13 +81,7 @@ class RepostViewHolder(adapter: PostAdapter, view: View) : BaseViewHolder(adapte
                 buttonLike.setImageResource(R.drawable.ic_baseline_favorite_24)
                 itemLike.setTextColor(Color.GRAY)
             }
-            if (post.activeComm) {
-                buttonComment.setImageResource(R.drawable.ic_baseline_commentred_24)
-                itemComment.setTextColor(Color.RED)
-            } else {
-                buttonComment.setImageResource(R.drawable.ic_baseline_comment_24)
-                itemComment.setTextColor(Color.GRAY)
-            }
+
             if (post.activeShare) {
                 buttonShare.setImageResource(R.drawable.ic_baseline_sharered_24r)
                 itemShare.setTextColor(Color.RED)
